@@ -2,7 +2,9 @@ const { Router } = require('express')
 const { signup, login} = require('../controllers/Auth')
 const router = Router()
 
-router.post('/signup', signup)
+const upload = require('../mutler');
+
+router.post('/signup', upload.single("imgUtilisateur"), signup)
 router.post('/login', login)
 
 module.exports = router

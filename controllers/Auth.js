@@ -3,6 +3,8 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const generateJwtToken = require("../jwt");
 
+const upload = require('../mutler');
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.utilisateur.findMany();
@@ -13,9 +15,16 @@ const getAllUsers = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-  const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
-
   try {
+    console.log("Requête reçue:", req.body);
+    const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
+    console.log("Données extraites:", pseudoUtilisateur, emailUtilisateur, mdpUtilisateur);
+
+    if (!req.file) {
+      console.log("Aucune photo sélectionnée.");
+      return res.status(400).json({ error: "Veuillez sélectionner une photo" });
+    }
+
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(mdpUtilisateur, saltRounds);
 
@@ -23,12 +32,14 @@ const signup = async (req, res) => {
         data: {
             pseudoUtilisateur: pseudoUtilisateur,
             emailUtilisateur: emailUtilisateur,
+            imgUtilisateur: req.file.path,
             mdpUtilisateur: hashedPassword
         }
     });
 
     res.status(201).json(user)
   } catch (error) {
+    console.error("Erreur lors de la création de l'utilisateur:", error.message);
     res.status(500).json({ msg: error.message });
   }
 };
