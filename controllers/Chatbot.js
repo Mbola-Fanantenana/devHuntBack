@@ -7,14 +7,6 @@ dotenv.config();
 // configuration de Google Generative AI
 const configuration = new GoogleGenerativeAI(process.env.API_KEY);
 
-// configuration de la génération
-const generationConfig = {
-  stopSequences: ["red"],
-  maxOutputTokens: 200,
-  temperature: 0.9,
-  topP: 0.1,
-  topK: 16,
-};
 
 // Paramètres de sécurité pour bloquer le contenu inapproprié
 const safetySettings = [
@@ -31,7 +23,6 @@ const safetySettings = [
 // Chargement du modèle Generative AI
 const model = configuration.getGenerativeModel({
   model: "gemini-pro",
-  generationConfig,
   safetySettings
 });
 
