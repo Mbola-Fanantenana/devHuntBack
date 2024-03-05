@@ -3,9 +3,12 @@ const app = express();
 const dotenv = require("dotenv");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+
 const port = process.env.APP_PORT || 3000; 
+
 const AuthRoute = require('./routes/Auth')
 const Chatbot = require('./routes/Chatbot')
+const User = require('./routes/User')
 
 dotenv.config();
 
@@ -25,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use('/api', AuthRoute)
 app.use('/api', Chatbot)
+app.use('/api', User)
 
 
 
