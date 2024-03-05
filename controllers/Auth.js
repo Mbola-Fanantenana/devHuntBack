@@ -53,7 +53,7 @@ const login = async (req, res) => {
 
         const token = generateJwtToken(user.idUser)
 
-        res.status(200).json({ token })
+        res.status(200).json({ user: user, token })
     } catch (error) {
         res.status(401).json({ msg: error.message })
     }
