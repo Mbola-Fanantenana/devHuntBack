@@ -56,12 +56,18 @@ const createForum = async (req, res) => {
         const {contenuForum, heureForum, idUtilisateur, titre } = req.body;
 
         console.log("Données extraites:",contenuForum,heureForum, idUtilisateur, titre );
+        
+        if (!req.file) {
+            return res.status(400).json({ error: 'Veuillez sélectionner une photo' });
+        }
+
+        const imageUrl = req.file.filename;
 
         const newForum = await prisma.forum.create({
             data: {
                 contenuForum,
                 heureForum,
-                imgForum: req.file.path,
+                imgForum: imageUrl,
                 idUtilisateur: parseInt(idUtilisateur),
                 titre
             }
