@@ -45,13 +45,13 @@ model Info {
 
 model Forum {
   idForum       Int         @id @default(autoincrement())
-  contenuForum  String
+  contenuForum  String?
   dateForum     DateTime?   @default(now())
-  heureForum    String
+  heureForum    String?
   utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [idUtilisateur])
   idUtilisateur Int
   imgForum      String?
-  titre         String
+  titre         String?
   comment       Comment[]
 }
 
