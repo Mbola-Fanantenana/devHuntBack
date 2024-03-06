@@ -69,7 +69,6 @@ const createInfo = async (req, res) => {
     }
 };
 
-
 const updateInfo = async (req, res) => {
     try {
         const { contenueInfo } = req.body;
