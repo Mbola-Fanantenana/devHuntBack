@@ -87,7 +87,7 @@ const updateUser = async (req, res) => {
     }
 
     res.status(200).json(user);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const deleteUser = async (req, res) => {
@@ -106,10 +106,22 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const checkPseudoUtilisateur = async (req, res) => {
+  try {
+    const pseudo = await prisma.utilisateur.findUnique({
+      where: { pseudoUtilisateur: req.params.username },
+    });
+    res.json(pseudo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  checkPseudoUtilisateur,
 };
