@@ -41,10 +41,10 @@ model Info {
 
 model Forum {
   idForum       Int     @id @default(autoincrement())
-  contenuForum  String
+  contenuForum  String?
   dateForum     DateTime? @default(now())
-  heureForum    String
-  idUtilisateur Int
+  heureForum    String?
+  idUtilisateur Int?
   imgForum      String?
-  titre         String
+  titre         String?
 }
