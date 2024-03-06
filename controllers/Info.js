@@ -61,13 +61,14 @@ const createInfo = async (req, res) => {
                 heureInfo
             }
         });
-        
+
         res.status(200).json({ data: newInfo, msg: "Information créée" });
     } catch (error) {
         console.error("Erreur lors de la création de l'information:", error.message);
         res.status(500).json({ msg: error.message });
     }
 };
+
 
 const updateInfo = async (req, res) => {
     try {
