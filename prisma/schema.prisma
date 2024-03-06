@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Utilisateur {
-  idUtilisateur     Int    @id @default(autoincrement())
-  pseudoUtilisateur String @unique
+  idUtilisateur     Int     @id @default(autoincrement())
+  pseudoUtilisateur String  @unique
   emailUtilisateur  String
-  imgUtilisateur    String
+  imgUtilisateur    String?
   mdpUtilisateur    String
 }
 

@@ -18,12 +18,6 @@ const signup = async (req, res) => {
   try {
     console.log("Requête reçue:", req.body);
     const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
-    console.log("Données extraites:", pseudoUtilisateur, emailUtilisateur, mdpUtilisateur);
-
-    if (!req.file) {
-      console.log("Aucune photo sélectionnée.");
-      return res.status(400).json({ error: "Veuillez sélectionner une photo" });
-    }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(mdpUtilisateur, saltRounds);
@@ -32,7 +26,7 @@ const signup = async (req, res) => {
         data: {
             pseudoUtilisateur: pseudoUtilisateur,
             emailUtilisateur: emailUtilisateur,
-            imgUtilisateur: req.file.path,
+            imgUtilisateur: req.file? req.file.path : null,
             mdpUtilisateur: hashedPassword
         }
     });
