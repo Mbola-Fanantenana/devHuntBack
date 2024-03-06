@@ -17,13 +17,25 @@ const getAllUsers = async (req, res) => {
 const signup = async (req, res) => {
   try {
     console.log("Requête reçue:", req.body);
-    const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
+    const {
+      nomUtilisateur,
+      prenomUtilisateur,
+      niveauUtilisateur,
+      matriculeUtilisateur, 
+      pseudoUtilisateur, 
+      emailUtilisateur, 
+      mdpUtilisateur 
+    } = req.body;
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(mdpUtilisateur, saltRounds);
 
     const user = await prisma.utilisateur.create({
         data: {
+            nomUtilisateur: nomUtilisateur,
+            prenomUtilisateur: prenomUtilisateur,
+            niveauUtilisateur: niveauUtilisateur,
+            matriculeUtilisateur: matriculeUtilisateur,
             pseudoUtilisateur: pseudoUtilisateur,
             emailUtilisateur: emailUtilisateur,
             imgUtilisateur: req.file? req.file.path : null,
