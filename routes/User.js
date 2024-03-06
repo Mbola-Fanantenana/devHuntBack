@@ -6,7 +6,7 @@ const upload = require('../mutler');
 
 router.get('/users', getAllUsers)
 router.get('/user/:id', getUserById)
-router.get('checkUser/:pseudoUtilisateur', checkPseudoUtilisateur)
+router.get('/checkUser/:pseudoUtilisateur', checkPseudoUtilisateur)
 router.post('/createUser', upload.single("imgUtilisateur"), createUser)
 router.patch('/updateUser/:id', updateUser)
 router.delete('/deleteUser/:id', deleteUser)

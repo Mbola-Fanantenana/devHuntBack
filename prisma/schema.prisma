@@ -26,6 +26,6 @@ model Entraide {
 model Info {
   idInfo       Int       @id @default(autoincrement())
   contenueInfo String
-  dateInfo     DateTime @default(now())
+  dateInfo     DateTime? @default(now())
   heureInfo    String?
 }
