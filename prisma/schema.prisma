@@ -25,6 +25,7 @@ model Entraide {
   chefEntraide   String?
   detailEntraide String?
   lienEntraide   String?
+  nomEntraide    String? @unique
 }
 
 model Info {
@@ -32,4 +33,6 @@ model Info {
   contenueInfo String
   dateInfo     DateTime? @default(now())
   heureInfo    String?
+  imgInfo      String?
+  idUtilisateur Int
 }

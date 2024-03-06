@@ -51,14 +51,16 @@ const createInfo = async (req, res) => {
     try {
         console.log("Requête reçue:", req.body);
 
-        const {contenueInfo, heureInfo} = req.body;
+        const {contenueInfo, heureInfo, idUtilisateur} = req.body;
 
         console.log("Données extraites:", contenueInfo);
 
         const newInfo = await prisma.info.create({
             data: {
                 contenueInfo,
-                heureInfo
+                heureInfo,
+                imgInfo: req.file.path,
+                idUtilisateur: parseInt(idUtilisateur)
             }
         });
 
@@ -76,7 +78,8 @@ const updateInfo = async (req, res) => {
         const updateInfo = await prisma.info.update({
             where: { idInfo: parseInt(req.params.id) },
             data: {
-                contenueInfo
+                contenueInfo,
+                imgInfo: req.file.path
             },
         });
 
