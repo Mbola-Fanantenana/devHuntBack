@@ -111,11 +111,18 @@ const checkPseudoUtilisateur = async (req, res) => {
     const pseudo = await prisma.utilisateur.findUnique({
       where: { pseudoUtilisateur: req.params.username },
     });
+
+    if (pseudo === null) {
+      res.status(404).json({ message: "Utilisateur introuvable" });
+      return;
+    }
+
     res.json(pseudo);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 module.exports = {
   getAllUsers,
