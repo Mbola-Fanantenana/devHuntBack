@@ -20,6 +20,8 @@ const signup = async (req, res) => {
     const {
       nomUtilisateur,
       prenomUtilisateur,
+      adresseUtilisateur,
+      telUtilisateur,
       niveauUtilisateur,
       matriculeUtilisateur, 
       pseudoUtilisateur, 
@@ -34,6 +36,8 @@ const signup = async (req, res) => {
         data: {
             nomUtilisateur: nomUtilisateur,
             prenomUtilisateur: prenomUtilisateur,
+            adresseUtilisateur: adresseUtilisateur,
+            telUtilisateur: telUtilisateur,
             niveauUtilisateur: niveauUtilisateur,
             matriculeUtilisateur: matriculeUtilisateur,
             pseudoUtilisateur: pseudoUtilisateur,

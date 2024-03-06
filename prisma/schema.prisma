@@ -11,6 +11,8 @@ model Utilisateur {
   idUtilisateur        Int     @id @default(autoincrement())
   nomUtilisateur       String?
   prenomUtilisateur    String?
+  adresseUtilisateur   String?
+  telUtilisateur       String?
   niveauUtilisateur    String?
   matriculeUtilisateur String? @unique
   pseudoUtilisateur    String? @unique
@@ -29,10 +31,10 @@ model Entraide {
 }
 
 model Info {
-  idInfo       Int      @id @default(autoincrement())
-  contenueInfo String
-  dateInfo     DateTime? @default(now())
-  heureInfo    String?
-  imgInfo      String?
+  idInfo        Int       @id @default(autoincrement())
+  contenueInfo  String
+  dateInfo      DateTime? @default(now())
+  heureInfo     String?
+  imgInfo       String?
   idUtilisateur Int
 }
