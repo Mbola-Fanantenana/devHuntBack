@@ -11,6 +11,8 @@ model Utilisateur {
   idUtilisateur        Int     @id @default(autoincrement())
   nomUtilisateur       String?
   prenomUtilisateur    String?
+  adresseUtilisateur   String?
+  telUtilisateur       String?
   niveauUtilisateur    String?
   matriculeUtilisateur String? @unique
   pseudoUtilisateur    String? @unique
