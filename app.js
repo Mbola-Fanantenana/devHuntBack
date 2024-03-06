@@ -10,6 +10,7 @@ const port = process.env.APP_PORT || 3000;
 const AuthRoute = require("./routes/Auth");
 const Chatbot = require("./routes/Chatbot");
 const User = require("./routes/User");
+const Info = require("./routes/Info");
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api", AuthRoute);
 app.use("/api", Chatbot);
 app.use("/api", User);
+app.use("/api", Info);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

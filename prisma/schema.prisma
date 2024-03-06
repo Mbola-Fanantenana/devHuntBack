@@ -11,7 +11,7 @@ model Utilisateur {
   idUtilisateur     Int    @id @default(autoincrement())
   pseudoUtilisateur String @unique
   emailUtilisateur  String
-  imgUtilisateur    String
+  imgUtilisateur    String?
   mdpUtilisateur    String
 }
 
@@ -25,6 +25,7 @@ model Entraide {
 
 model Info {
   idInfo       Int       @id @default(autoincrement())
-  contenueInfo String?
-  dateInfo     DateTime?
+  contenueInfo String
+  dateInfo     DateTime @default(now())
+  heureInfo    String?
 }
