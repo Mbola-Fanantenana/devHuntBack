@@ -85,12 +85,14 @@ const updateEntraide = async (req, res) => {
         });
 
         res.status(200).json(updatedEntraide);
-        if (!user) {
+        if (!updateEntraide) {
             return res.status(404).json({ msg: "Entraide not found" });
         }
 
         res.status(200).json(updateEntraide);
-    } catch (error) { }
+    } catch (error) { 
+        res.status(500).json({ msg: error.message })
+    }
 };
 
 const deleteEntraide = async (req, res) => {

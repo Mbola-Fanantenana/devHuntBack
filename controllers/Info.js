@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
 // Fonction pour formater la date au format DD/MM/YY
 function formatDate(date) {
     const d = new Date(date);
@@ -36,12 +37,13 @@ const getInfoById = async (req, res) => {
             where: { idInfo: parseInt(req.params.id) },
         });
 
-        if (!info) {
+        if (info) {
             info.dateInfo = formatDate(info.dateInfo);
+            res.status(200).json(info);
+        }else {
             return res.status(404).json({ msg: "Information not found" });
         }
-
-        res.status(200).json(info);
+        
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
@@ -84,12 +86,10 @@ const updateInfo = async (req, res) => {
         });
 
         res.status(200).json(updateInfo);
-        if (!user) {
-            return res.status(404).json({ msg: "Information not found" });
-        }
-
-        res.status(200).json(user);
-    } catch (error) { }
+        
+    } catch (error) { 
+        res.status(500).json({ msg: error.message })
+    }
 };
 
 const deleteInfo = async (req, res) => {
@@ -97,10 +97,6 @@ const deleteInfo = async (req, res) => {
         const info = await prisma.info.delete({
             where: { idInfo: parseInt(req.params.id) },
         });
-
-        if (!info) {
-            return res.status(404).json({ msg: "Information not found" });
-        }
 
         res.status(200).json({ msg: "Information deleted successfully" });
     } catch (error) {

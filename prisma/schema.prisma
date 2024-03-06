@@ -29,10 +29,20 @@ model Entraide {
 }
 
 model Info {
-  idInfo       Int      @id @default(autoincrement())
-  contenueInfo String
-  dateInfo     DateTime? @default(now())
-  heureInfo    String?
-  imgInfo      String?
+  idInfo        Int       @id @default(autoincrement())
+  contenueInfo  String
+  dateInfo      DateTime? @default(now())
+  heureInfo     String?
+  imgInfo       String?
   idUtilisateur Int
+}
+
+model Forum {
+  idForum       Int     @id @default(autoincrement())
+  contenuForum  String
+  dateForum     DateTime? @default(now())
+  heureForum    String
+  idUtilisateur Int
+  imgForum      String?
+  titre         String
 }

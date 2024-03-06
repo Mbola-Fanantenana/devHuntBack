@@ -12,6 +12,7 @@ const Chatbot = require("./routes/Chatbot");
 const User = require("./routes/User");
 const Info = require("./routes/Info");
 const Entraide = require("./routes/Entraide");
+const Forum = require("./routes/Forum");
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use("/api", Chatbot);
 app.use("/api", User);
 app.use("/api", Info);
 app.use("/api", Entraide);
+app.use("/api", Forum);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
