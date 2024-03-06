@@ -61,7 +61,7 @@ const createForum = async (req, res) => {
             data: {
                 contenuForum,
                 heureForum,
-                imgForum: req.file.path,
+                imgForum: imageUrl,
                 idUtilisateur: parseInt(idUtilisateur),
                 titre
             }
