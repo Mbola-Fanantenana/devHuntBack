@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 
 // Fonction pour formater la date au format DD/MM/YY
 function formatDate(date) {
@@ -40,10 +43,10 @@ const getInfoById = async (req, res) => {
         if (info) {
             info.dateInfo = formatDate(info.dateInfo);
             res.status(200).json(info);
-        }else {
+        } else {
             return res.status(404).json({ msg: "Information not found" });
         }
-        
+
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
@@ -51,27 +54,30 @@ const getInfoById = async (req, res) => {
 
 const createInfo = async (req, res) => {
     try {
-        console.log("Requête reçue:", req.body);
+        if (!req.file) {
+            return res.status(400).json({ error: 'Veuillez sélectionner une photo' });
+        }
 
-        const {contenueInfo, heureInfo, idUtilisateur} = req.body;
+        const { idUtilisateur, contenueInfo, heureInfo } = req.body;
 
-        console.log("Données extraites:", contenueInfo, heureInfo, idUtilisateur );
+        const imageUrl = req.file.filename;
 
         const newInfo = await prisma.info.create({
             data: {
                 contenueInfo,
                 heureInfo,
-                imgInfo: req.file.path,
+                imgInfo: imageUrl,
                 idUtilisateur: parseInt(idUtilisateur)
             }
         });
 
-        res.status(200).json({ data: newInfo, msg: "Information créée" });
+        res.status(200).json({ data: newInfo, msg: "Information créée avec succès" });
     } catch (error) {
         console.error("Erreur lors de la création de l'information:", error.message);
         res.status(500).json({ msg: error.message });
     }
 };
+
 
 const updateInfo = async (req, res) => {
     try {
@@ -86,8 +92,8 @@ const updateInfo = async (req, res) => {
         });
 
         res.status(200).json(updateInfo);
-        
-    } catch (error) { 
+
+    } catch (error) {
         res.status(500).json({ msg: error.message })
     }
 };
