@@ -53,7 +53,7 @@ const createInfo = async (req, res) => {
 
         const {contenueInfo, heureInfo, idUtilisateur} = req.body;
 
-        console.log("Données extraites:", contenueInfo);
+        console.log("Données extraites:", contenueInfo, heureInfo, idUtilisateur );
 
         const newInfo = await prisma.info.create({
             data: {
