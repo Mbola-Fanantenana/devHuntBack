@@ -60,7 +60,7 @@ const createInfo = async (req, res) => {
 
         const { idUtilisateur, contenueInfo, heureInfo } = req.body;
 
-        const imageUrl = req.file.filename;
+        const imageUrl = req.file ? req.file.filename : null;
 
         const newInfo = await prisma.info.create({
             data: {

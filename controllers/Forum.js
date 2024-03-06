@@ -57,6 +57,8 @@ const createForum = async (req, res) => {
 
         console.log("Données extraites:", contenuForum, heureForum, idUtilisateur, titre);
 
+        const imageUrl = req.file ? req.file.filename : null
+
         const newForum = await prisma.forum.create({
             data: {
                 contenuForum,
