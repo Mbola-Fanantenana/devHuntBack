@@ -24,7 +24,7 @@ const getEntraideById = async (req, res) => {
             return res.status(404).json({ msg: "Entraide not found" });
         }
 
-        res.status(200).json(user);
+        res.status(200).json(entraide);
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
@@ -38,10 +38,10 @@ const createEntraide = async (req, res) => {
 
         console.log("Données extraites:",nomEntraide, chefEntraide, detailEntraide, lienEntraide);
 
-        if (!req.file) {
-            console.log("Aucun logo sélectionné.");
-            return res.status(400).json({ error: "Veuillez sélectionner un logo" });
-        }
+        // if (!req.file) {
+        //     console.log("Aucun logo sélectionné.");
+        //     return res.status(400).json({ error: "Veuillez sélectionner un logo" });
+        // }
 
         const existingEntraide = await prisma.entraide.findFirst({
             where: {
@@ -57,7 +57,7 @@ const createEntraide = async (req, res) => {
             data: {
                 nomEntraide,
                 chefEntraide,
-                logoEntraide: req.file.path,
+                logoEntraide: req.file? req.file.path : null,
                 detailEntraide,
                 lienEntraide
             },
@@ -72,13 +72,14 @@ const createEntraide = async (req, res) => {
 
 const updateEntraide = async (req, res) => {
     try {
-        const { chefEntraide, detailEntraide, lienEntraide } = req.body;
+        const { chefEntraide, detailEntraide, lienEntraide, nomEntraide } = req.body;
 
         const updatedEntraide = await prisma.entraide.update({
             where: { idEntraide: parseInt(req.params.id) },
             data: {
                 chefEntraide,
-                logoEntraide: req.file.path,
+                nomEntraide,
+                logoEntraide: req.file? req.file.path : null,
                 detailEntraide,
                 lienEntraide
             },

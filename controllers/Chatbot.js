@@ -41,7 +41,7 @@ const generateResponse = async (req, res) => {
     history.push(text);
     console.log("History: ", history);
 
-    res.send({ response: text });
+    res.send(history);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
