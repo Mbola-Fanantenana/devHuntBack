@@ -8,17 +8,20 @@ datasource db {
 }
 
 model Utilisateur {
-  idUtilisateur        Int     @id @default(autoincrement())
+  idUtilisateur        Int       @id @default(autoincrement())
   nomUtilisateur       String?
   prenomUtilisateur    String?
   adresseUtilisateur   String?
   telUtilisateur       String?
   niveauUtilisateur    String?
-  matriculeUtilisateur String? @unique
-  pseudoUtilisateur    String? @unique
+  matriculeUtilisateur String?   @unique
+  pseudoUtilisateur    String?   @unique
   emailUtilisateur     String?
   imgUtilisateur       String?
   mdpUtilisateur       String?
+  info                 Info[]
+  forum                Forum[]
+  comment              Comment[]
 }
 
 model Entraide {
@@ -31,20 +34,35 @@ model Entraide {
 }
 
 model Info {
-  idInfo        Int       @id @default(autoincrement())
+  idInfo        Int         @id @default(autoincrement())
   contenueInfo  String
-  dateInfo      DateTime? @default(now())
+  dateInfo      DateTime?   @default(now())
   heureInfo     String?
   imgInfo       String?
+  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [idUtilisateur])
   idUtilisateur Int
 }
 
 model Forum {
-  idForum       Int     @id @default(autoincrement())
+  idForum       Int         @id @default(autoincrement())
   contenuForum  String
-  dateForum     DateTime? @default(now())
+  dateForum     DateTime?   @default(now())
   heureForum    String
+  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [idUtilisateur])
   idUtilisateur Int
   imgForum      String?
   titre         String
+  comment       Comment[]
+}
+
+model Comment {
+  idCom         Int         @id @default(autoincrement())
+  forum         Forum       @relation(fields: [idForum], references: [idForum])
+  idForum       Int
+  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [idUtilisateur])
+  idUtilisateur Int
+  contenu       String
+  dateCom       DateTime?   @default(now())
+  heureCom      String
+  imgCom        String?
 }
