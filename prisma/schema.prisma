@@ -14,3 +14,17 @@ model Utilisateur {
   imgUtilisateur    String
   mdpUtilisateur    String
 }
+
+model Entraide {
+  idEntraide     Int     @id @default(autoincrement())
+  logoEntraide   String?
+  chefEntraide   String?
+  detailEntraide String?
+  lienEntraide   String?
+}
+
+model Info {
+  idInfo       Int       @id @default(autoincrement())
+  contenueInfo String?
+  dateInfo     DateTime?
+}
