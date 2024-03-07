@@ -22,6 +22,8 @@ model Utilisateur {
   info                 Info[]
   forum                Forum[]
   comment              Comment[]
+  messagesEmis         Message[] @relation("Emetteur")
+  messagesRecus        Message[] @relation("Recepteur")
 }
 
 model Entraide {
@@ -67,4 +69,14 @@ model Comment {
   imgCom        String?
 }
 
-
+model Message {
+  idMessage                   Int         @id @default(autoincrement())
+  contenuMessage              String?
+  emetteurMessageId           Int
+  recepteurMessageId          Int
+  dateEnvoi                   DateTime?   @default(now()) // Ajout de la date d'envoi
+  isRead                      Boolean     @default(false) // Ajout de la propriété isRead
+  heureMessage                String?
+  utilisateurEmetteurMessage  Utilisateur @relation("Emetteur", fields: [emetteurMessageId], references: [idUtilisateur])
+  utilisateurRecepteurMessage Utilisateur @relation("Recepteur", fields: [recepteurMessageId], references: [idUtilisateur])
+}

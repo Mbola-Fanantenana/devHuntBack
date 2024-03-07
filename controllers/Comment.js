@@ -64,7 +64,7 @@ const createCom = async (req, res) => {
                 idUtilisateur: parseInt(idUtilisateur),
                 contenu,
                 heureCom,
-                imgCom: req.file.path 
+                imgCom: req.file? req.file.path : null
             }
         });
 

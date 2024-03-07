@@ -34,6 +34,7 @@ const getForumById = async (req, res) => {
     try {
         const forum = await prisma.forum.findUnique({
             where: { idForum: parseInt(req.params.id) },
+            include : {utilisateur : true}
         });
 
         if (forum) {
