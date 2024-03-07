@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const generateJwtToken = require("../jwt");
 
-const upload = require('../mutler');
+const upload = require("../mutler");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -36,9 +36,30 @@ const createUser = async (req, res) => {
   try {
     console.log("Requête reçue:", req.body);
 
-    const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
+    const {
+      nomUtilisateur,
+      prenomUtilisateur,
+      adresseUtilisateur,
+      telUtilisateur,
+      niveauUtilisateur,
+      matriculeUtilisateur,
+      pseudoUtilisateur,
+      emailUtilisateur,
+      mdpUtilisateur,
+    } = req.body;
 
-    console.log("Données extraites:", pseudoUtilisateur, emailUtilisateur, mdpUtilisateur);
+    console.log(
+      "Données extraites:",
+      nomUtilisateur,
+      prenomUtilisateur,
+      adresseUtilisateur,
+      telUtilisateur,
+      niveauUtilisateur,
+      matriculeUtilisateur,
+      pseudoUtilisateur,
+      emailUtilisateur,
+      mdpUtilisateur
+    );
 
     if (!req.file) {
       console.log("Aucune photo sélectionnée.");
@@ -49,9 +70,15 @@ const createUser = async (req, res) => {
 
     const newUser = await prisma.utilisateur.create({
       data: {
-        pseudoUtilisateur,
-        emailUtilisateur,
-        imgUtilisateur: req.file.path,
+        nomUtilisateur: nomUtilisateur,
+        prenomUtilisateur: prenomUtilisateur,
+        adresseUtilisateur: adresseUtilisateur,
+        telUtilisateur: telUtilisateur,
+        niveauUtilisateur: niveauUtilisateur,
+        matriculeUtilisateur: matriculeUtilisateur,
+        pseudoUtilisateur: pseudoUtilisateur,
+        emailUtilisateur: emailUtilisateur,
+        imgUtilisateur: req.file ? req.file.path : null,
         mdpUtilisateur: hachedMdp,
       },
     });
@@ -60,21 +87,40 @@ const createUser = async (req, res) => {
 
     res.status(201).json({ user: newUser, token });
   } catch (error) {
-    console.error("Erreur lors de la création de l'utilisateur:", error.message);
+    console.error(
+      "Erreur lors de la création de l'utilisateur:",
+      error.message
+    );
     res.status(500).json({ msg: error.message });
   }
 };
 
-
 const updateUser = async (req, res) => {
   try {
-    const { pseudoUtilisateur, emailUtilisateur, mdpUtilisateur } = req.body;
+    const {
+      nomUtilisateur,
+      prenomUtilisateur,
+      adresseUtilisateur,
+      telUtilisateur,
+      niveauUtilisateur,
+      matriculeUtilisateur,
+      pseudoUtilisateur,
+      emailUtilisateur,
+      mdpUtilisateur,
+    } = req.body;
 
     const updatedUser = await prisma.utilisateur.update({
       where: { idUtilisateur: parseInt(req.params.id) },
       data: {
-        pseudoUtilisateur,
-        emailUtilisateur,
+        nomUtilisateur: nomUtilisateur,
+        prenomUtilisateur: prenomUtilisateur,
+        adresseUtilisateur: adresseUtilisateur,
+        telUtilisateur: telUtilisateur,
+        niveauUtilisateur: niveauUtilisateur,
+        matriculeUtilisateur: matriculeUtilisateur,
+        pseudoUtilisateur: pseudoUtilisateur,
+        emailUtilisateur: emailUtilisateur,
+        imgUtilisateur: req.file ? req.file.path : null,
         mdpUtilisateur: mdpUtilisateur
           ? await bcrypt.hash(mdpUtilisateur, 10)
           : undefined,
@@ -87,7 +133,7 @@ const updateUser = async (req, res) => {
     }
 
     res.status(200).json(user);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 const deleteUser = async (req, res) => {
@@ -122,7 +168,6 @@ const checkPseudoUtilisateur = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 module.exports = {
   getAllUsers,
