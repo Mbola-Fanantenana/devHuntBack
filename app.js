@@ -14,6 +14,7 @@ const Info = require("./routes/Info");
 const Entraide = require("./routes/Entraide");
 const Forum = require("./routes/Forum");
 const Comment = require("./routes/Comment");
+const Message = require("./routes/Message");
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use("/api", Info);
 app.use("/api", Entraide);
 app.use("/api", Forum);
 app.use("/api", Comment);
+app.use("/api", Message);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
