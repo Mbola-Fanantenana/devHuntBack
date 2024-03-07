@@ -24,7 +24,6 @@ const createMessage = async (data, emetteurMessageId, recepteurMessageId) => {
         throw error
     }
 }
-
 //Function for getting the chat between two users
 const getConversationDeuxUser =  async (recepteurMessageId,emetteurMessageId)  => {
     try {
