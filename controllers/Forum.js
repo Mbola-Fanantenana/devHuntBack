@@ -112,38 +112,46 @@ const deleteForum = async (req, res) => {
 };
 
 const getAllComments = async (req, res) => {
-  try {
-    const forumId = parseInt(req.params.forumId);
-
-    // Récupérer tous les commentaires associés à un forum spécifique avec Prisma
-    const forumWithComments = await prisma.forum.findUnique({
-      where: {
-        idForum: forumId,
-      },
-      include: {
-        comment: true, // Inclure tous les commentaires associés à ce forum
-      },
-    });
-
-    if (forumWithComments) {
-      // Renvoyer les commentaires associés au forum
-      res.status(200).json(forumWithComments.comment);
-    } else {
-      res.status(404).json({ message: "Forum non trouvé" });
-    }
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des commentaires du forum :",
-      error
-    );
-    res
-      .status(500)
-      .json({
-        message:
-          "Erreur serveur lors de la récupération des commentaires du forum",
-      });
-  }
+    try {
+        const forumId = parseInt(req.params.forumId);
+    
+        // Récupérer tous les commentaires associés à un forum spécifique avec Prisma
+        const forumWithComments = await prisma.forum.findUnique({
+          where: {
+            idForum: forumId,
+          },
+          include: {
+            comment: {
+              select: {
+                idCom: true,
+                contenu: true,
+                dateCom: true,
+                heureCom: true,
+                imgCom: true,
+                utilisateur: {
+                  select: {
+                    idUtilisateur: true,
+                    nomUtilisateur: true, 
+                  },
+                },
+              },
+            },
+          },
+        });
+    
+        if (forumWithComments) {
+          // Compter le nombre de commentaires associés au forum
+          const commentCount = forumWithComments.comment.length;
+          res.status(200).json({ comments: forumWithComments.comment, commentCount });
+        } else {
+          res.status(404).json({ message: 'Forum non trouvé' });
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des commentaires du forum :', error);
+        res.status(500).json({ message: 'Erreur serveur lors de la récupération des commentaires du forum' });
+      }
 };
+
 
 module.exports = {
   getAllForum,
