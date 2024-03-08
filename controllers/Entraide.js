@@ -34,14 +34,9 @@ const createEntraide = async (req, res) => {
     try {
         console.log("Requête reçue:", req.body);
 
-        const {  nomEntraide, chefEntraide, detailEntraide, lienEntraide} = req.body;
+        const {  nomEntraide, chefEntraide, detailEntraide, lienEntraide, idUtilisateur } = req.body;
 
         console.log("Données extraites:",nomEntraide, chefEntraide, detailEntraide, lienEntraide);
-
-        // if (!req.file) {
-        //     console.log("Aucun logo sélectionné.");
-        //     return res.status(400).json({ error: "Veuillez sélectionner un logo" });
-        // }
 
         const existingEntraide = await prisma.entraide.findFirst({
             where: {
@@ -59,7 +54,8 @@ const createEntraide = async (req, res) => {
                 chefEntraide,
                 logoEntraide: req.file? req.file.path : null,
                 detailEntraide,
-                lienEntraide
+                lienEntraide,
+                idUtilisateur : parseInt(idUtilisateur)
             },
         });
 
