@@ -54,9 +54,6 @@ const getInfoById = async (req, res) => {
 
 const createInfo = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'Veuillez sélectionner une photo' });
-        }
 
         const { idUtilisateur, contenueInfo, heureInfo } = req.body;
 

@@ -24,14 +24,12 @@ dotenv.config();
 
 const server = http.createServer(app);
 
-// const io = server, {
-//     cors: {
-//         origin: '*',
-//         methods: ['GET', 'POST'],
-//     },
-// });
-
-const io = Server(server)
+const io = Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+},
+})
 
 io.on('connection', (socket) => {
     console.log('Connected');
