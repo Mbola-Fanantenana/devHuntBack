@@ -138,6 +138,7 @@ const getAllComments = async (req, res) => {
                             select: {
                                 idUtilisateur: true,
                                 nomUtilisateur: true,
+                                prenomUtilisateur : true
                             },
                         },
                     },
