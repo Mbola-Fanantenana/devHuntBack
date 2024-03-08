@@ -8,7 +8,7 @@ router.get('/users', getAllUsers)
 router.get('/user/:id', getUserById)
 router.get('/checkUser/:pseudoUtilisateur', checkPseudoUtilisateur)
 router.post('/createUser', upload.single("imgUtilisateur"), createUser)
-router.patch('/updateUser/:id', updateUser)
+router.patch('/updateUser/:id', upload.single("imgUtilisateur"), updateUser)
 router.delete('/deleteUser/:id', deleteUser)
 
 
