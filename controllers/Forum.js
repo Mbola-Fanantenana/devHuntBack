@@ -1,12 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const axios = require('axios');
+const dotenv = require("dotenv");
 
-// Fonction pour formater la date au format DD/MM/YY
 function formatDate(date) {
     const d = new Date(date);
     const day = d.getDate().toString().padStart(2, '0');
-    const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont indexés à partir de zéro
-    const year = d.getFullYear().toString().slice(-2); // Récupère les deux derniers chiffres de l'année
+    const month = (d.getMonth() + 1).toString().padStart(2, '0'); 
+    const year = d.getFullYear().toString().slice(-2); 
 
     return `${day}/${month}/${year}`;
 }
@@ -17,13 +18,22 @@ const getAllForum = async (req, res) => {
             orderBy: { idForum: "desc" },
         });
 
-        // Formatage des dates au format DD/MM/YY
-        const formattedForum = forums.map(forum => {
-            return {
-                ...forum,
-                dateForum: formatDate(forum.dateForum)
-            };
-        });
+        const formattedForum = await Promise.all(forums.map(async (forum) => {
+            try {
+                const response = await axios.get(`${process.env.SOCKET_URL}/api/forum/comments/${forum.idForum}`);
+                const nombreComs = response.data.commentCount; 
+        
+                return {
+                    ...forum,
+                    dateForum: formatDate(forum.dateForum),
+                    nombreComs: nombreComs ? nombreComs : 0
+                };
+            } catch (error) {
+                console.error("Erreur lors de la récupération des commentaires du forum :", error);
+                return null; // Ou faites quelque chose pour gérer l'erreur
+            }
+        }));
+
         res.status(200).json(formattedForum);
     } catch (error) {
         res.status(500).json({ msg: message.error });
@@ -112,7 +122,6 @@ const getAllComments = async (req, res) => {
     try {
         const forumId = parseInt(req.params.forumId);
 
-        // Récupérer tous les commentaires associés à un forum spécifique avec Prisma
         const forumWithComments = await prisma.forum.findUnique({
             where: {
                 idForum: forumId,
@@ -129,6 +138,7 @@ const getAllComments = async (req, res) => {
                             select: {
                                 idUtilisateur: true,
                                 nomUtilisateur: true,
+                                prenomUtilisateur : true
                             },
                         },
                     },
@@ -137,7 +147,6 @@ const getAllComments = async (req, res) => {
         });
 
         if (forumWithComments) {
-            // Compter le nombre de commentaires associés au forum
             const commentCount = forumWithComments.comment.length;
             res.status(200).json({ comments: forumWithComments.comment, commentCount });
         } else {

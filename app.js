@@ -24,27 +24,25 @@ dotenv.config();
 
 const server = http.createServer(app);
 
-// const io = server, {
-//     cors: {
-//         origin: '*',
-//         methods: ['GET', 'POST'],
-//     },
-// });
-
-const io = Server(server)
+const io = Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+})
 
 io.on('connection', (socket) => {
-    console.log('Connected');
+  console.log('Connected');
 
-    socket.on('newMessage', (message) => {
-        io.emit('update');
-        console.log('update');
-    });
+  socket.on('newMessage', (message) => {
+    io.emit('update');
+    console.log('update');
+  });
 
 
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
 });
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -70,6 +68,15 @@ app.use("/api", Entraide);
 app.use("/api", Forum);
 app.use("/api", Comment);
 app.use("/api", Message);
+
+// app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/api/getImage/:filename', (req, res) => {
+  const { filename } = req.params;
+  
+  const imagePath = path.join(__dirname, 'uploads', filename);
+  res.sendFile(imagePath);
+});
 
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);

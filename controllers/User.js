@@ -120,7 +120,7 @@ const updateUser = async (req, res) => {
         matriculeUtilisateur: matriculeUtilisateur,
         pseudoUtilisateur: pseudoUtilisateur,
         emailUtilisateur: emailUtilisateur,
-        imgUtilisateur: req.file ? req.file.path : null,
+        imgUtilisateur: req.file ? req.file.filename : null,
         mdpUtilisateur: mdpUtilisateur
           ? await bcrypt.hash(mdpUtilisateur, 10)
           : undefined,
